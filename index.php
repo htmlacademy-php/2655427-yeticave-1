@@ -51,6 +51,19 @@ $items = [
     ],
 
 ];
+
+/*function price_formatting($number) {
+    $number = ceil($number);
+    if ($number > 1000) {
+        return number_format($number, 0, '', ' ').' '.'₽';
+    }
+    return $number.' '.'₽';
+}*/
+function price_formatting($number) {
+    $number = ceil($number);
+    $number = $number > 1000 ? number_format($number, 0, '', ' '):$number;
+    return $number.' '.'₽';
+}
 ?>
 
 <!DOCTYPE html>
@@ -124,8 +137,8 @@ $items = [
                     <h3 class="lot__title"><a class="text-link" href="pages/lot.html"><?= $item['title'] ?></a></h3>
                     <div class="lot__state">
                         <div class="lot__rate">
-                            <span class="lot__amount"><?= $item['price'] ?></span>
-                            <span class="lot__cost">цена<b class="rub">р</b></span>
+                            <span class="lot__amount">Стартовая цена</span>
+                            <span class="lot__cost"><?= price_formatting($item['price']) ?></span>
                         </div>
                         <div class="lot__timer timer">
                             12:23
