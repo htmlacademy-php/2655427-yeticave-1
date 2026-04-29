@@ -1,12 +1,13 @@
 <?php
-/**
- * @var array $categories
- * @var array $lots
- * @var string $title
- * @var int|bool $is_auth
- * @var string $user_name
- * @var string $page_content
-*/
+
+require_once 'helpers.php';
+
+/** @var array $categories */
+/** @var string $title */
+/** @var int $is_auth */
+/** @var string $user_name */
+/** @var string $page_content */
+
 ?>
 
 <!DOCTYPE html>
@@ -83,7 +84,7 @@
         <ul class="nav__list container">
             <?php foreach($categories as $category): ?>
                 <li class="nav__item">
-                    <a href="pages/all-lots.html"><?= htmlspecialchars($category) ?></a>
+                    <a href="pages/all-lots.html"><?= esc($category) ?></a>
                 </li>
             <?php endforeach; ?>
         </ul>

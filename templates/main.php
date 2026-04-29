@@ -1,8 +1,8 @@
 <?php
-/**
- * @var array $categories
- * @var array $lots
-*/
+
+/** @var array $categories */
+/** @var array $lots */
+
 ?>
 <section class="promo">
     <h2 class="promo__title">Нужен стафф для катки?</h2>
@@ -11,7 +11,7 @@
 
         <?php foreach($categories as $category): ?>
             <li class="promo__item promo__item--boards">
-                <a class="promo__link" href="pages/all-lots.html"><?= htmlspecialchars($category); ?></a>
+                <a class="promo__link" href="pages/all-lots.html"><?= esc($category) ?></a>
             </li>
         <?php endforeach; ?>
 
@@ -28,24 +28,27 @@
                 <li class="lots__item lot">
                     <div class="lot__image">
                         <img
-                            src="<?= htmlspecialchars($lot['img_url'] ?? '') ?>"
+                            src="<?= esc($lot['img_url'] ?? '') ?>"
                             width="350"
                             height="260"
                             alt=""
                         >
                     </div>
                     <div class="lot__info">
-                        <span class="lot__category"><?= htmlspecialchars($lot['category'] ?? '') ?></span>
+                        <span class="lot__category"><?= esc($lot['category'] ?? '') ?></span>
                         <h3 class="lot__title">
-                            <a class="text-link" href="pages/lot.html"><?= htmlspecialchars($lot['title'] ?? '') ?></a>
+                            <a class="text-link" href="pages/lot.html"><?= esc($lot['title'] ?? '') ?></a>
                         </h3>
                         <div class="lot__state">
                             <div class="lot__rate">
                                 <span class="lot__amount">Стартовая цена</span>
-                                <span class="lot__cost"><?= htmlspecialchars(formatPrice($lot['price']) ?? 0) ?></span>
+                                <span class="lot__cost"><?= esc(formatPrice($lot['price']) ?? 0) ?></span>
                             </div>
-                            <div class="lot__timer timer">
-                                12:23
+
+                            <?php [$hours, $minutes] = remainingTime(esc($lot['end_date'] ?? '')); ?>
+
+                            <div class="lot__timer timer <?= $hours < 1 ? 'timer--finishing' : '' ?> ">
+                                <?= sprintf('%02d:%02d', $hours, $minutes) ?>
                             </div>
                         </div>
                     </div>
