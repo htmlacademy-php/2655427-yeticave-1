@@ -6,10 +6,8 @@ require_once 'functions.php';
 require_once 'data.php';
 require_once 'helpers.php';
 
-/**
- *  @var array $categories
- *  @var array $lots
-*/
+/** @var array $categories */
+/** @var array $lots */
 
 $is_auth = rand(0, 1);
 $user_name = 'Виктория';
