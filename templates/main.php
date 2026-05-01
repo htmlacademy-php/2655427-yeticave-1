@@ -45,7 +45,7 @@
                                 <span class="lot__cost"><?= esc(formatPrice($lot['price']) ?? 0) ?></span>
                             </div>
 
-                            <?php [$hours, $minutes] = remainingTime(esc($lot['end_date'] ?? '')); ?>
+                            <?php [$hours, $minutes] = getRemainingTime(esc($lot['end_date'] ?? '')); ?>
 
                             <div class="lot__timer timer <?= $hours < 1 ? 'timer--finishing' : '' ?> ">
                                 <?= sprintf('%02d:%02d', $hours, $minutes) ?>

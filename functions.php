@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-const FORMAT_THRESHOLD = 1000;
-
 /**
  * @param string $value
  * @return string
@@ -28,18 +26,16 @@ function formatPrice(float $price): string {
  * @param string $value
  * @return array
  */
-function remainingTime(string $value): array {
+function getRemainingTime(string $value): array {
     $now = new DateTime();
     $future = new DateTime($value);
 
     $diff = date_diff($now, $future);
 
-    $total_minutes = $diff->days * 24 * 60
-                   + $diff->h * 60
-                   + $diff->i;
+    $total_minutes = ($diff->days * HOURS_IN_DAY + $diff->h) * MINUTES_IN_HOUR + $diff->i;
 
-    $hours = intdiv($total_minutes, 60);
-    $minutes = $total_minutes % 60;
+    $hours = intdiv($total_minutes, MINUTES_IN_HOUR);
+    $minutes = $total_minutes % MINUTES_IN_HOUR;
 
     return [$hours, $minutes];
 }

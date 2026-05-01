@@ -20,7 +20,7 @@ $lots = [
         'title'    => '2014 Rossignol District Snowboard',
         'price'    => 10999,
         'category' => 'Доски и лыжи',
-        'end_date' => '2026-04-29 20:33:00'
+        'end_date' => '2026-04-30 9:00:00'
     ],
     [
         'img_url'  => 'img/lot-2.jpg',
