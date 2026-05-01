@@ -4,7 +4,7 @@ CREATE DATABASE IF NOT EXISTS yeticave
 
 USE yeticave;
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   email VARCHAR(128) NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE users (
   UNIQUE KEY uq_email (email)
 );
 
-CREATE TABLE category (
+CREATE TABLE IF NOT EXISTS category (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(128) NOT NULL,
   slug VARCHAR(128) NOT NULL,
@@ -24,8 +24,7 @@ CREATE TABLE category (
   UNIQUE KEY uq_slug (slug)
 );
 
-
-CREATE TABLE lot (
+CREATE TABLE IF NOT EXISTS lot (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   title VARCHAR(128) NOT NULL,
@@ -39,21 +38,18 @@ CREATE TABLE lot (
   winner_bet_id INT UNSIGNED NULL,
   category_id INT UNSIGNED NOT NULL,
 
-  INDEX idx_winner_bet_id (winner_bet_id),
   INDEX idx_author_id (author_id),
   INDEX idx_expire_date (expire_date),
   INDEX idx_category_id (category_id),
+  INDEX idx_winner_bet_id (winner_bet_id),
 
   FULLTEXT KEY ft_title_description (title, description),
 
-
   CONSTRAINT fk_author_id FOREIGN KEY (author_id) REFERENCES users (id),
-  CONSTRAINT fk_winner_bet_id FOREIGN KEY (winner_bet_id) REFERENCES bid (id),
   CONSTRAINT fk_category_id FOREIGN KEY (category_id) REFERENCES category (id)
 );
 
-
-CREATE TABLE bid (
+CREATE TABLE IF NOT EXISTS bid (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   price_bid INT UNSIGNED NOT NULL,
@@ -68,5 +64,7 @@ CREATE TABLE bid (
   CONSTRAINT fk_lot_id FOREIGN KEY (lot_id) REFERENCES lot (id)
 );
 
-
-
+ALTER TABLE lot
+ADD CONSTRAINT fk_winner_bet_id
+FOREIGN KEY (winner_bet_id)
+REFERENCES bid(id);
