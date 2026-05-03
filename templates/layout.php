@@ -17,14 +17,14 @@
 <body>
     <div class="page-wrapper">
 
-        <?php require('header.php'); ?>
+        <?php include_template('header.php'); ?>
 
         <main class="container"><?= $page_content ?></main>
     </div>
 
-<?php require('footer.php'); ?>
+    <?php include_template('footer.php'); ?>
 
-<script src="flatpickr.js"></script>
-<script src="script.js"></script>
+    <script src="flatpickr.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
