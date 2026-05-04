@@ -1,5 +1,5 @@
 -- Adding data to the list of lots for auction
-INSERT INTO lot (
+INSERT INTO `lot` (
   title,
   description,
   img_url,

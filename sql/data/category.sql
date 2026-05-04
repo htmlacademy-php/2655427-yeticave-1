@@ -1,5 +1,5 @@
 -- Adding data to the list categories
-INSERT INTO category (name, slug) VALUES
+INSERT INTO `category` (name, slug) VALUES
   ('Доски и лыжи', 'boards'),
   ('Крепления', 'attachment'),
   ('Ботинки', 'boots'),

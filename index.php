@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-require_once 'constant.php';
-require_once 'functions.php';
-require_once 'data.php';
-require_once 'helpers.php';
+require_once '/util/constant.php';
+require_once '/util/data.php';
+require_once '/functions/functions.php';
+require_once '/functions/helpers.php';
 
 /** @var array $categories */
 /** @var array $lots */
