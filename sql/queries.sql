@@ -3,7 +3,7 @@ SELECT
     id,
     name,
     slug
-FROM category;
+FROM `category`;
 
 -- Get the newest open lots
 SELECT
@@ -13,9 +13,9 @@ SELECT
     lot.img_url,
     COALESCE(MAX(bid.amount), lot.start_price) AS current_price,
     category.name AS category_name
-FROM lot
-LEFT JOIN bid ON bid.lot_id = lot.id
-JOIN category ON lot.category_id = category.id
+FROM `lot`
+LEFT JOIN `bid` ON bid.lot_id = lot.id
+JOIN `category` ON lot.category_id = category.id
 WHERE lot.expire_date >  NOW()
 GROUP BY lot.id
 ORDER BY lot.created_at DESC;
@@ -28,13 +28,14 @@ SELECT
     lot.img_url,
     COALESCE(MAX(bid.amount), lot.start_price) AS current_price,
     category.name AS category_name
-FROM lot
-LEFT JOIN bid ON bid.lot_id = lot.id
-JOIN category ON lot.category_id = category.id
-WHERE lot.id = 2;
+FROM `lot`
+LEFT JOIN `bid` ON bid.lot_id = lot.id
+JOIN `category` ON lot.category_id = category.id
+WHERE lot.id = 2
+GROUP BY lot.id;
 
 -- Update the lot name by its ID
-UPDATE lot
+UPDATE `lot`
 SET title = 'Горнолыжная Маска Oakley Canopy'
 WHERE id = 6;
 
@@ -45,7 +46,7 @@ SELECT
     lot.title,
     bid.amount,
     bid.created_at
-FROM bid
-JOIN lot ON bid.lot_id = lot.id
+FROM `bid`
+JOIN `lot` ON bid.lot_id = lot.id
 WHERE bid.lot_id = 2
 ORDER BY bid.created_at DESC;

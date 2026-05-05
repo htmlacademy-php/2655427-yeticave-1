@@ -1,5 +1,5 @@
 -- Adding data to the user list, password: IceAgeCharacter2002
-INSERT INTO user (
+INSERT INTO `user` (
   email,
   name,
   password_hash,
