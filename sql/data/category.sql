@@ -5,4 +5,6 @@ INSERT INTO `category` (name, slug) VALUES
   ('Ботинки', 'boots'),
   ('Одежда', 'clothing'),
   ('Инструменты', 'tools'),
+  ('Аксессуары', 'accessories'),
   ('Разное', 'other');
+

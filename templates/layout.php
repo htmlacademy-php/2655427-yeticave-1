@@ -17,12 +17,12 @@
 <body>
     <div class="page-wrapper">
 
-        <?php include_template('header.php'); ?>
+        <?= include_template('header.php',compact('is_auth', 'user_name')); ?>
 
         <main class="container"><?= $page_content ?></main>
     </div>
 
-    <?php include_template('footer.php'); ?>
+    <?= include_template('footer.php', compact('categories')); ?>
 
     <script src="flatpickr.js"></script>
     <script src="script.js"></script>
