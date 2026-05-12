@@ -7,4 +7,3 @@ INSERT INTO `category` (name, slug) VALUES
   ('Инструменты', 'tools'),
   ('Аксессуары', 'accessories'),
   ('Разное', 'other');
-
