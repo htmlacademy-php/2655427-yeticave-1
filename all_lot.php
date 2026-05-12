@@ -7,11 +7,12 @@ require_once 'functions/functions_db.php';
 
 $is_auth = rand(0, 1);
 $user_name = 'Виктория';
-$title = 'Главная';
+$title = 'Все лоты';
 
-$page_content = include_template('main.php', compact(
-    'categories',
-    'lots'
+$page_content = include_template('all_lot.php', compact(
+    'category_slug',
+    'categories_id',
+    'categories'
 ));
 
 $layout_content = include_template('layout/layout.php', compact(

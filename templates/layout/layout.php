@@ -13,21 +13,21 @@
 <head>
     <meta charset="UTF-8">
     <title><?= $title ?></title>
-    <link href="../css/normalize.min.css" rel="stylesheet">
-    <link href="../css/style.css" rel="stylesheet">
+    <link href="assets/css/normalize.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="page-wrapper">
 
-        <?= include_template('header.php',compact('is_auth', 'user_name')); ?>
+        <?= include_template('layout/header.php',compact('is_auth', 'user_name')); ?>
 
         <main class="container"><?= $page_content ?></main>
     </div>
 
-    <?= include_template('footer.php', compact('categories')); ?>
+    <?= include_template('layout/footer.php', compact('categories')); ?>
 
-    <script src="flatpickr.js"></script>
-    <script src="script.js"></script>
+    <script src="assets/js/flatpickr.js"></script>
+    <script src="assets/js/script.js"></script>
 </body>
 </html>
