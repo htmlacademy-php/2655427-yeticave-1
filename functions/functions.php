@@ -10,17 +10,13 @@ function esc(string $value): string {
     return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 }
 
-
 /**
  * @param float $price
  * @return string
  */
 function formatPrice(float $price): string {
-<<<<<<< HEAD
-    $price = (int) $price;
-=======
     $price = ceil($price);
->>>>>>> master
+
     return ($price > FORMAT_THRESHOLD
         ? number_format($price, 0, '', ' ')
         : $price) . ' ₽';
@@ -43,7 +39,6 @@ function getRemainingTime(string $value): array {
 
     return [$hours, $minutes];
 }
-<<<<<<< HEAD
 
 function fetchAll(mysqli $con, string $sql_query): array {
     $result = mysqli_query($con, $sql_query);
@@ -64,5 +59,3 @@ function fetchOne(mysqli $con, string $sql_query): array|null {
     }
     return mysqli_fetch_assoc($result);
 }
-=======
->>>>>>> master

@@ -5,10 +5,5 @@ INSERT INTO `category` (name, slug) VALUES
   ('Ботинки', 'boots'),
   ('Одежда', 'clothing'),
   ('Инструменты', 'tools'),
-<<<<<<< HEAD
-  ('Разное', 'other');
-=======
   ('Аксессуары', 'accessories'),
   ('Разное', 'other');
-
->>>>>>> master
