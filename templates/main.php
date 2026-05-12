@@ -11,7 +11,11 @@
 
         <?php foreach($categories as $category): ?>
             <li class="promo__item promo__item--<?= esc($category['slug']) ?>">
+<<<<<<< HEAD
                 <a class="promo__link" href="all_lot.php?category=<?= esc($category['slug']) ?>"><?= esc($category['name']) ?></a>
+=======
+                <a class="promo__link" href="pages/all-lots.html"><?= esc($category['name']) ?></a>
+>>>>>>> master
             </li>
         <?php endforeach; ?>
 
@@ -35,17 +39,30 @@
                         >
                     </div>
                     <div class="lot__info">
+<<<<<<< HEAD
                         <span class="lot__category"><?= esc($lot['category_name'] ?? '') ?></span>
                         <h3 class="lot__title">
                             <a class="text-link" href="lot.php?id=<?= esc($lot['lot_id'] ?? '') ?>"><?= esc($lot['title'] ?? '') ?></a>
+=======
+                        <span class="lot__category"><?= esc($lot['category'] ?? '') ?></span>
+                        <h3 class="lot__title">
+                            <a class="text-link" href="pages/lot.html"><?= esc($lot['title'] ?? '') ?></a>
+>>>>>>> master
                         </h3>
                         <div class="lot__state">
                             <div class="lot__rate">
                                 <span class="lot__amount">Стартовая цена</span>
+<<<<<<< HEAD
                                 <span class="lot__cost"><?= esc(formatPrice($lot['start_price']) ?? 0) ?></span>
                             </div>
 
                             <?php [$hours, $minutes] = getRemainingTime(esc($lot['expire_date'] ?? '')); ?>
+=======
+                                <span class="lot__cost"><?= esc(formatPrice($lot['price']) ?? 0) ?></span>
+                            </div>
+
+                            <?php [$hours, $minutes] = getRemainingTime(esc($lot['end_date'] ?? '')); ?>
+>>>>>>> master
 
                             <div class="lot__timer timer <?= $hours < 1 ? 'timer--finishing' : '' ?> ">
                                 <?= sprintf('%02d:%02d', $hours, $minutes) ?>

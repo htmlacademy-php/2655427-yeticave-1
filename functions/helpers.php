@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Проверяет переданную дату на соответствие формату 'ГГГГ-ММ-ДД'
  *
@@ -142,5 +143,3 @@ function include_template($name, array $data = []) {
 
     return $result;
 }
-
-
