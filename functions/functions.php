@@ -39,23 +39,3 @@ function getRemainingTime(string $value): array {
 
     return [$hours, $minutes];
 }
-
-function fetchAll(mysqli $con, string $sql_query): array {
-    $result = mysqli_query($con, $sql_query);
-
-    if (!$result) {
-        error_log(mysqli_error($con));
-        return [];
-    }
-    return mysqli_fetch_all($result, MYSQLI_ASSOC);
-}
-
-function fetchOne(mysqli $con, string $sql_query): array|null {
-    $result = mysqli_query($con, $sql_query);
-
-    if (!$result) {
-        error_log(mysqli_error($con));
-        return null;
-    }
-    return mysqli_fetch_assoc($result);
-}

@@ -1,7 +1,7 @@
 <?php
 
 /** @var array $categories */
-/** @var array $lot_card */
+/** @var array|null $lot */
 
 ?>
 
@@ -12,7 +12,7 @@
 
             <?php foreach($categories as $category): ?>
                 <li class="nav__item">
-                    <a href="all_lot.php?category=<?= esc($category['slug']) ?>"><?= esc($category['name']) ?></a>
+                    <a href="all-lot.php?category=<?= esc($category['slug']) ?>"><?= esc($category['name']) ?></a>
                 </li>
             <?php endforeach; ?>
 
@@ -20,11 +20,11 @@
     </nav>
 
     <section class="lot-item container">
-        <h2><?= esc($lot_card['title'] ?? '') ?></h2>
+        <h2><?= esc($lot['title'] ?? '') ?></h2>
         <div class="lot-item__content">
             <div class="lot-item__left">
                 <div class="lot-item__image">
-                    <img src="<?= esc($lot_card['img_url'] ?? '') ?>"
+                    <img src="<?= esc($lot['img_url'] ?? '') ?>"
                          width="730"
                          height="548"
                          alt="Сноуборд"
@@ -32,15 +32,15 @@
                 </div>
                 <p class="lot-item__category">Категория:
                     <span>
-                        <?= esc($lot_card['category_name'] ?? '') ?>
+                        <?= esc($lot['category_name'] ?? '') ?>
                     </span>
                 </p>
-                <p class="lot-item__description"><?= esc($lot_card['description'] ?? '') ?></p>
+                <p class="lot-item__description"><?= esc($lot['description'] ?? '') ?></p>
             </div>
             <div class="lot-item__right">
                 <div class="lot-item__state">
 
-                    <?php [$hours, $minutes] = getRemainingTime(esc($lot_card['expire_date'] ?? '')); ?>
+                    <?php [$hours, $minutes] = getRemainingTime(esc($lot['expire_date'] ?? '')); ?>
 
                     <div class="lot__timer timer <?= $hours < 1 ? 'timer--finishing' : '' ?> ">
                         <?= sprintf('%02d:%02d', $hours, $minutes) ?>
@@ -48,7 +48,7 @@
                     <div class="lot-item__cost-state">
                         <div class="lot-item__rate">
                             <span class="lot-item__amount">Текущая цена</span>
-                            <span class="lot-item__cost"><?= formatPrice(esc($lot_card['current_price'] ?? '')) ?></span>
+                            <span class="lot-item__cost"><?= formatPrice(esc($lot['current_price'] ?? '')) ?></span>
                         </div>
                         <div class="lot-item__min-cost">
                             Мин. ставка <span>12 000 р</span>
