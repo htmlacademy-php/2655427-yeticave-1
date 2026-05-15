@@ -11,7 +11,7 @@
 
         <?php foreach($categories as $category): ?>
             <li class="promo__item promo__item--<?= esc($category['slug']) ?>">
-                <a class="promo__link" href="all_lot.php?category=<?= esc($category['slug']) ?>"><?= esc($category['name']) ?></a>
+                <a class="promo__link" href="all-lot.php?category=<?= esc($category['slug']) ?>"><?= esc($category['name']) ?></a>
             </li>
         <?php endforeach; ?>
 

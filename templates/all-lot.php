@@ -13,7 +13,7 @@
 
             <?php foreach($categories as $category): ?>
                 <li class="nav__item <?= $category['slug'] === $category_slug ? 'nav__item--current' : '' ?>">
-                    <a href="all_lot.php?category=<?= esc($category['slug']) ?>"><?= esc($category['name']) ?></a>
+                    <a href="all-lot.php?category=<?= esc($category['slug']) ?>"><?= esc($category['name']) ?></a>
                 </li>
             <?php endforeach; ?>
 
