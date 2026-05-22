@@ -10,11 +10,10 @@
     <nav class="nav">
         <ul class="nav__list container">
 
-            <?php foreach($categories as $category): ?>
-                <li class="nav__item">
-                    <a href="all-lot.php?category=<?= esc($category['slug']) ?>"><?= esc($category['name']) ?></a>
-                </li>
-            <?php endforeach; ?>
+            <?php
+                $mode = 'footer';
+                include 'templates/_partials/nav.php';
+            ?>
 
         </ul>
     </nav>

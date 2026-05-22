@@ -1,6 +1,6 @@
 <?php
 
-/** @var array $categories_id */
+/** @var array $category_lots */
 /** @var array $categories */
 /** @var array $lots */
 /** @var string|null $category_slug */
@@ -11,11 +11,10 @@
     <nav class="nav">
         <ul class="nav__list container">
 
-            <?php foreach($categories as $category): ?>
-                <li class="nav__item <?= $category['slug'] === $category_slug ? 'nav__item--current' : '' ?>">
-                    <a href="all-lot.php?category=<?= esc($category['slug']) ?>"><?= esc($category['name']) ?></a>
-                </li>
-            <?php endforeach; ?>
+            <?php
+                $mode = 'nav';
+                include 'templates/_partials/nav.php';
+            ?>
 
         </ul>
     </nav>
@@ -25,7 +24,7 @@
             <h2>Все лоты в категории <span>«Доски и лыжи»</span></h2>
             <ul class="lots__list">
 
-                <?php foreach($categories_id as $lot): ?>
+                <?php foreach($category_lots as $lot): ?>
                     <li class="lots__item lot">
                         <div class="lot__image">
                             <img
@@ -67,4 +66,4 @@
         <li class="pagination-item pagination-item-next"><a href="#">Вперед</a></li>
       </ul>
     </div>
-  </main>
+</main>

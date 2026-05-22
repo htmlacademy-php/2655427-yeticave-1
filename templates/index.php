@@ -9,11 +9,10 @@
     <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
     <ul class="promo__list">
 
-        <?php foreach($categories as $category): ?>
-            <li class="promo__item promo__item--<?= esc($category['slug']) ?>">
-                <a class="promo__link" href="all-lot.php?category=<?= esc($category['slug']) ?>"><?= esc($category['name']) ?></a>
-            </li>
-        <?php endforeach; ?>
+            <?php
+                $mode = 'promo';
+                include 'templates/_partials/nav.php';
+            ?>
 
     </ul>
 </section>
