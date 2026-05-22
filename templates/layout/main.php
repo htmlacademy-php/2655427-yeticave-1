@@ -15,6 +15,7 @@
     <title><?= $title ?></title>
     <link href="assets/css/normalize.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/flatpickr.min.css" rel="stylesheet">
 </head>
 
 <body>

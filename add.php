@@ -13,18 +13,14 @@ $category_id = array_column($categories, 'id');
 $allowed_types = ['image/png', 'image/jpeg'];
 $errors = [];
 $form_data = [];
+$rules = [];
 
 if ($_SERVER['REQUEST_METHOD'] === HttpMethodEnum::POST->value) {
     $form_data = array_map('trim', $_POST);
 
-    $rules = [
-        'category' => fn($value) => validateCategory((int)$value, $category_id),
-        'lot-rate' => 'validatePositiveInt',
-        'lot-step' => 'validatePositiveInt',
-        'lot-date' => 'validateDate',
-    ];
+    $rules = getAddLotRules($category_id);
 
-    validateMissingDate($rules, $form_data, $errors);
+    validateRequiredFields($rules, $form_data, $errors);
 
     $errors = array_filter($errors);
 
@@ -52,10 +48,10 @@ if ($_SERVER['REQUEST_METHOD'] === HttpMethodEnum::POST->value) {
 }
 
 $page_content = include_template('add-lot.php', compact(
-            'form_data',
-            'errors',
-            'categories'
-        ));
+    'form_data',
+    'errors',
+    'categories'
+));
 
 $layout_content = include_template('layout/main.php', array_merge(
     [
