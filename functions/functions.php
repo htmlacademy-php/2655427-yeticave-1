@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 /**
+ * Escapes HTML characters for safe string output
+ *
  * @param string $value
  * @return string
  */
@@ -11,6 +13,8 @@ function esc(string $value): string {
 }
 
 /**
+ * Formats the price for display, round up the value
+ *
  * @param float $price
  * @return string
  */
@@ -23,6 +27,8 @@ function formatPrice(float $price): string {
 }
 
 /**
+ * Calculates the remaining time until the specified date
+ *
  * @param string $value
  * @return array
  */

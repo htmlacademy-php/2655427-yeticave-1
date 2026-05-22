@@ -28,6 +28,7 @@
     <?= include_template('layout/_footer.php', compact('categories')); ?>
 
     <script src="assets/js/flatpickr.js"></script>
+    <script src="assets/js/ru.js"></script>
     <script src="assets/js/script.js"></script>
 </body>
 </html>

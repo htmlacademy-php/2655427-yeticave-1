@@ -33,7 +33,7 @@
                 value="Найти"
             >
         </form>
-        <a class="main-header__add-lot button" href="markup/add-lot.html">Добавить лот</a>
+        <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
         <nav class="user-menu">
 
             <?php if ($is_auth): ?>
