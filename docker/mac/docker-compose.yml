@@ -42,8 +42,7 @@ services:
         restart: no
         volumes:
             - mysql_data:/var/lib/mysql
-            - ./mysql/01-schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
-            - ./mysql/02-category.sql:/docker-entrypoint-initdb.d/02-category.sql:ro
+            - ./mysql/:/docker-entrypoint-initdb.d/:ro
 
 volumes:
     mysql_data:
