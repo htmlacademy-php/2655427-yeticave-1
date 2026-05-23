@@ -6,6 +6,7 @@ declare(strict_types=1);
  * Get the newest open lots
  *
  * @param mysqli $connection
+ *
  * @return array
  */
 function getNewLots(mysqli $connection): array {
@@ -29,6 +30,7 @@ function getNewLots(mysqli $connection): array {
  * Get all categories
  *
  * @param mysqli $connection
+ *
  * @return array
  */
 function getAllCategories(mysqli $connection): array {
@@ -42,6 +44,7 @@ function getAllCategories(mysqli $connection): array {
  *
  * @param mysqli $connection
  * @param int $id
+ *
  * @return ?array
  */
 function getLotById(mysqli $connection, int $id): ?array {
@@ -71,7 +74,8 @@ function getLotById(mysqli $connection, int $id): ?array {
  * Get all lots by category
  *
  * @param mysqli $connection
- * @param ?string $category_slug
+ * @param string|null $category_slug
+ *
  * @return array
  */
 function getLotsByCategory(mysqli $connection, ?string $category_slug): array {
@@ -98,6 +102,7 @@ function getLotsByCategory(mysqli $connection, ?string $category_slug): array {
  *
  * @param mysqli $connection
  * @param array $data
+ *
  * @return bool
  */
 function addLot(mysqli $connection, array $data): bool {
@@ -110,7 +115,7 @@ function addLot(mysqli $connection, array $data): bool {
         category_id,
         img_url,
         author_id
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1)";
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, 1)";
 
     $stmt = db_get_prepare_stmt($connection, $sql, $data);
     return mysqli_stmt_execute($stmt);
