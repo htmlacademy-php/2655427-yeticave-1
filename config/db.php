@@ -1,8 +1,6 @@
 <?php
 
-/**
- * Database configuration
- */
+// host for docker-build must be "mysql"
 return [
     'host'     => 'localhost',
     'user'     => 'root',
