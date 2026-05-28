@@ -3,14 +3,16 @@
 declare(strict_types=1);
 
 require_once 'init.php';
+
 use enum\HttpStatusCodeEnum;
 
 /** @var array  $categories */
 /** @var array  $user */
 /** @var mysqli $con */
 
-$id = intval(filter_input(INPUT_GET, 'id'));
-$lot = getLotById($con, $id);
+$lot_id = intval(filter_input(INPUT_GET, 'id'));
+$lot = getLotById($con, $lot_id);
+$history_bids = getBidsByLot($con, $lot_id);
 
 if (!$lot) {
     http_response_code(HttpStatusCodeEnum::HttpNotFound->value);
@@ -19,7 +21,8 @@ if (!$lot) {
 
 $page_content = include_template('lot.php', compact(
     'categories',
-    'lot'
+    'lot',
+    'history_bids'
 ));
 
 $layout_content = include_template('layout/main.php', array_merge(

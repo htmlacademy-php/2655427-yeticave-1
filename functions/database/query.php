@@ -58,6 +58,7 @@ function getLotById(mysqli $connection, int $id): ?array {
         lot.description,
         lot.start_price,
         COALESCE(MAX(bid.amount), lot.start_price) AS current_price,
+        lot.bid_step,
         lot.img_url,
         category.name AS category_name,
         lot.expire_date
@@ -68,6 +69,31 @@ function getLotById(mysqli $connection, int $id): ?array {
     GROUP BY lot.id";
 
     return fetchOne($connection, $sql);
+}
+
+/**
+ * Get the betting history
+ *
+ * @param mysqli $connection
+ * @param int $id
+ *
+ * @return ?array
+ */
+function getBidsByLot(mysqli $connection, int $id): ?array {
+    if ($id === 0) {
+        return [];
+    }
+
+    $sql ="SELECT
+        user.name AS user_name,
+        bid.amount,
+        bid.created_at
+    FROM `bid`
+    JOIN `user` ON  bid.user_id = user.id
+    WHERE bid.lot_id = $id
+    ORDER BY bid.created_at DESC";
+
+    return fetchAll($connection, $sql);
 }
 
 /**
@@ -98,14 +124,33 @@ function getLotsByCategory(mysqli $connection, ?string $category_slug): array {
 }
 
 /**
+ * Get the category name
+ *
+ * @param mysqli $connection
+ * @param string|null $category_slug
+ *
+ * @return array
+ */
+function getCategoryName(mysqli $connection, ?string $category_slug): array {
+    $category_slug = mysqli_real_escape_string($connection, $category_slug);
+
+    $sql = "SELECT
+        name
+    FROM `category`
+    WHERE slug = '$category_slug'";
+
+    return fetchOne($connection, $sql);
+}
+
+/**
  * Adding lot data from the form to the database
  *
  * @param mysqli $connection
  * @param array $data
  *
- * @return bool
+ * @return string|int|null
  */
-function addLot(mysqli $connection, array $data): bool {
+function addLot(mysqli $connection, array $data): string|int|null {
     $sql = "INSERT INTO lot (
         title,
         description,
@@ -115,8 +160,11 @@ function addLot(mysqli $connection, array $data): bool {
         category_id,
         img_url,
         author_id
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, 1)";
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = db_get_prepare_stmt($connection, $sql, $data);
-    return mysqli_stmt_execute($stmt);
+    if (mysqli_stmt_execute($stmt)) {
+        return mysqli_insert_id($connection);
+    }
+    return null;
 }

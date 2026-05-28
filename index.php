@@ -5,9 +5,10 @@ declare(strict_types=1);
 require_once 'init.php';
 
 /** @var array  $categories */
-/** @var array  $lots */
 /** @var array  $user */
 /** @var mysqli $con */
+
+$lots = getNewLots($con);
 
 $page_content = include_template('index.php', compact(
     'categories',

@@ -10,10 +10,12 @@ require_once 'init.php';
 
 $category_slug = filter_input(INPUT_GET, 'category');
 $category_lots = getLotsByCategory($con, $category_slug);
+$category_name = getCategoryName($con, $category_slug);
 
 $page_content = include_template('all-lot.php', compact(
     'category_slug',
     'category_lots',
+    'category_name',
     'categories'
 ));
 
