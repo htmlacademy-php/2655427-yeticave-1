@@ -15,6 +15,7 @@ $page_content = include_template('index.php', compact(
     'lots'
 ));
 
+/** @noinspection PhpPipeOperatorCanBeUsedInspection */
 $layout_content = include_template('layout/main.php', array_merge(
     [
         'title'     => 'Главная',

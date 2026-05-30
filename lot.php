@@ -25,6 +25,7 @@ $page_content = include_template('lot.php', compact(
     'history_bids'
 ));
 
+/** @noinspection PhpPipeOperatorCanBeUsedInspection */
 $layout_content = include_template('layout/main.php', array_merge(
     [
         'title'     => $lot['title'],

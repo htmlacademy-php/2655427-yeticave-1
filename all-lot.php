@@ -19,6 +19,7 @@ $page_content = include_template('all-lot.php', compact(
     'categories'
 ));
 
+/** @noinspection PhpPipeOperatorCanBeUsedInspection */
 $layout_content = include_template('layout/main.php', array_merge(
     [
         'title'     => 'Все лоты',

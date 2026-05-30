@@ -40,6 +40,7 @@ $page_content = include_template('add-lot.php', compact(
     'categories'
 ));
 
+/** @noinspection PhpPipeOperatorCanBeUsedInspection */
 $layout_content = include_template('layout/main.php', array_merge(
     [
         'title'     => 'Добавление лота',

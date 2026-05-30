@@ -40,6 +40,7 @@ $page_content = include_template('sign-up.php', compact(
     'errors'
 ));
 
+/** @noinspection PhpPipeOperatorCanBeUsedInspection */
 $layout_content = include_template('layout/main.php', array_merge(
     [
         'title'     => 'Регистрация',
