@@ -13,15 +13,16 @@ require_once 'functions/functions.php';
 require_once 'functions/helpers.php';
 require_once 'functions/form.php';
 
-require_once 'validation/rulse.php';
-require_once 'validation/validators.php';
+require_once 'validation/const.php';
+require_once 'validation/rules.php';
 require_once 'validation/index.php';
+require_once 'validation/validators.php';
 
 $con = connectToMySQL();
 
 $categories = getAllCategories($con);
 
 $user = [
-    'is_auth'   => rand(0, 1),
+    'is_auth'   => 0,
     'user_name' => 'Виктория'
 ];
