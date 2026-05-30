@@ -168,3 +168,46 @@ function addLot(mysqli $connection, array $data): string|int|null {
     }
     return null;
 }
+
+/**
+ * Get all the information about users
+ *
+ * @param mysqli $connection
+ *
+ * @return array
+ */
+function getAllUsers(mysqli $connection) {
+    $sql = "SELECT
+        id,
+        created_at,
+        email,
+        name,
+        password_hash,
+        contact_info
+    FROM `user`";
+
+    return fetchAll($connection, $sql);
+}
+
+/**
+ * Adding user data to the database
+ *
+ * @param mysqli $connection
+ * @param array $data
+ *
+ * @return string|int|null
+ */
+function registerUser(mysqli $connection, array $data): string|int|null {
+    $sql = "INSERT INTO user (
+        email,
+        name,
+        password_hash,
+        contact_info
+    ) VALUES (?, ?, ?, ?)";
+
+    $stmt = db_get_prepare_stmt($connection, $sql, $data);
+    if (mysqli_stmt_execute($stmt)) {
+        return mysqli_insert_id($connection);
+    }
+    return null;
+}

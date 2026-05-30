@@ -10,39 +10,39 @@ use enum\HttpMethodEnum;
 /** @var array  $user */
 /** @var mysqli $con */
 
+$email = getAllUsers($con);
+
 $errors = [];
 $form_data = [];
 
 if ($_SERVER['REQUEST_METHOD'] === HttpMethodEnum::POST->value) {
     $form_data = array_map('trim', $_POST);
-    $category_id = array_column($categories, 'id');
+    $user_email = array_column($email, 'email');
 
-    validateFormData(VALIDATION_RULES[ADD_LOT_FORM_KEY], $form_data, $errors, $category_id);
+    validateFormData(VALIDATION_RULES[SIGN_UP_FORM_KEY], $form_data, $errors, $user_email);
 
     $errors = array_filter($errors);
 
-    processLotImage($errors, $form_data);
-
     if (empty($errors)) {
-        $params = prepareLotData($form_data);
-        $lot_id = addLot($con, $params);
+        $params = prepareUserData($form_data);
+        $user_id = registerUser($con, $params);
 
-        if ($lot_id) {
-            header("Location: lot.php?id=" . $lot_id);
+        if ($user_id) {
+            header("Location: index.php");
             exit;
         }
     }
 }
 
-$page_content = include_template('add-lot.php', compact(
+$page_content = include_template('sign-up.php', compact(
+    'categories',
     'form_data',
-    'errors',
-    'categories'
+    'errors'
 ));
 
 $layout_content = include_template('layout/main.php', array_merge(
     [
-        'title'     => 'Добавление лота',
+        'title'     => 'Регистрация',
         'is_auth'   => $user['is_auth'],
         'user_name' => $user['user_name']
     ],

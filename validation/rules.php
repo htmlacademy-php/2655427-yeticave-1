@@ -2,27 +2,19 @@
 
 declare(strict_types=1);
 
-const ALLOWED_IMAGE_MIME_TYPES = [
-    'image/png',
-    'image/jpeg',
-];
-
-const ALLOWED_IMAGE_EXTENSIONS = [
-    'jpg',
-    'jpeg',
-    'png',
-];
-
 const VALIDATOR_SEPARATOR = ':';
 const VALIDATOR_PARAMS_SEPARATOR = '&';
 const VALIDATOR_PARAM_VALUE_SEPARATOR = '=';
 
 const ADD_LOT_FORM_KEY = 'add-lot';
+const SIGN_UP_FORM_KEY = 'sign-up';
+
 
 const VALIDATION_RULES = [
     ADD_LOT_FORM_KEY  => [
         'category'    => [
-            'required'
+            'required',
+            'category'
         ],
         'lot-name'    => [
             'required',
@@ -43,6 +35,27 @@ const VALIDATION_RULES = [
         'lot-date'    => [
             'required',
             'date:format=Y-m-d&gt=today'
+        ]
+    ],
+    SIGN_UP_FORM_KEY  => [
+        'email'       => [
+            'required',
+            'string:min=4&max=128',
+            'email'
+        ],
+        'name'        => [
+            'required',
+            'string:min=4&max=128',
+            'name:filter'
+        ],
+        'password'    => [
+            'required',
+            'string:min=8&max=255',
+            'password'
+        ],
+        'message'     => [
+            'required',
+            'string:min=5'
         ]
     ]
 ];

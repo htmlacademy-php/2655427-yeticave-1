@@ -17,14 +17,18 @@ function parseValidatorParams(string $params_string): array {
         $params_string
     );
 
-    foreach ($pairs as $pair) {
-        [$key, $value] = explode(
-            VALIDATOR_PARAM_VALUE_SEPARATOR,
-            $pair
-        );
-        $params[$key] = $value;
-    }
+    $key = $parts[0] ?? null;
+    $value = $parts[1] ?? null;
 
+    if ($key !== null && $value !== null) {
+        foreach ($pairs as $pair) {
+            [$key, $value] = explode(
+                VALIDATOR_PARAM_VALUE_SEPARATOR,
+                $pair
+            );
+            $params[$key] = $value;
+        }
+    }
     return $params;
 }
 
@@ -37,7 +41,7 @@ function parseValidatorParams(string $params_string): array {
  *
  * @return string|null
  */
-function validateByRule(string $rule, string $value): ?string {
+function validateByRule(string $rule, string $value, array $allowed_list): ?string {
 
     $parts = explode(VALIDATOR_SEPARATOR, $rule);
 
@@ -57,11 +61,23 @@ function validateByRule(string $rule, string $value): ?string {
         case 'int':
             return validatePositiveInt($value, $params);
 
+        case 'string':
+            return validateText($value, $params);
+
         case 'date':
             return validateDate($value, $params);
 
-        case 'string':
-            return validateText($value, $params);
+        case 'category':
+            return validateCategory($value, $allowed_list);
+
+        case 'email':
+            return validateEmail($value, $allowed_list);
+
+        case 'password':
+            return validatePassword($value);
+
+        case 'name':
+            return validateName($value);
 
         default:
             return null;
@@ -75,21 +91,23 @@ function validateByRule(string $rule, string $value): ?string {
  * @param array $rules Validation rules for form fields
  * @param array $form_data The form's data array
  * @param array $errors Array of errors
+ * @param array $allowed_list List of valid categories for category validation
  *
  * @return void
  */
-function validateFormData(array $rules, array $form_data, array &$errors): void {
+function validateFormData(array $rules, array $form_data, array &$errors, array $allowed_list): void {
 
     foreach ($rules as $field => $validators) {
 
-        $value = trim($form_data[$field] ?? '');
+        $value = $form_data[$field] ?? '';
 
         foreach ($validators as $rule) {
 
-            $error = validateByRule($rule, $value);
+            $error = validateByRule($rule, $value, $allowed_list);
 
             if ($error !== null) {
                 $errors[$field] = $error;
+                break;
             }
         }
     }
