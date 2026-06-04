@@ -61,7 +61,8 @@ function getLotById(mysqli $connection, int $id): ?array {
         lot.bid_step,
         lot.img_url,
         category.name AS category_name,
-        lot.expire_date
+        lot.expire_date,
+        lot.author_id
     FROM `lot`
     LEFT JOIN `bid` ON bid.lot_id = lot.id
     JOIN `category` ON category.id = lot.category_id
@@ -79,7 +80,7 @@ function getLotById(mysqli $connection, int $id): ?array {
  *
  * @return ?array
  */
-function getBidsByLot(mysqli $connection, int $id): ?array {
+function getBidsByLotId(mysqli $connection, int $id): ?array {
     if ($id === 0) {
         return [];
     }
@@ -87,7 +88,8 @@ function getBidsByLot(mysqli $connection, int $id): ?array {
     $sql ="SELECT
         user.name AS user_name,
         bid.amount,
-        bid.created_at
+        bid.created_at,
+        bid.user_id
     FROM `bid`
     JOIN `user` ON  bid.user_id = user.id
     WHERE bid.lot_id = $id
@@ -104,7 +106,7 @@ function getBidsByLot(mysqli $connection, int $id): ?array {
  *
  * @return array
  */
-function getLotsByCategory(mysqli $connection, ?string $category_slug): array {
+function getLotsByCategorySlug(mysqli $connection, ?string $category_slug): array {
     $category_slug = mysqli_real_escape_string($connection, $category_slug);
 
     $sql = "SELECT
@@ -197,7 +199,7 @@ function getAllUsers(mysqli $connection) {
  *
  * @return string|int|null
  */
-function registerUser(mysqli $connection, array $data): string|int|null {
+function addUser(mysqli $connection, array $data): string|int|null {
     $sql = "INSERT INTO user (
         email,
         name,
