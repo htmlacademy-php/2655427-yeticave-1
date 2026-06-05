@@ -28,8 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === HttpMethodEnum::POST->value) {
 
     $errors = array_filter($errors);
 
-    session_start();
-
     if (empty($errors)) {
         $found_user = null;
 
@@ -42,8 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === HttpMethodEnum::POST->value) {
 
         if ($found_user) {
             $_SESSION['user'] = [
-                'id' => $user['id'],
-                'name' => $user['name']
+                'id' => $found_user['id'],
+                'name' => $found_user['name']
             ];
             header("Location: index.php");
             exit;
