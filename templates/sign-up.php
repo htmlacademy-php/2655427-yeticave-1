@@ -9,10 +9,14 @@
 <nav class="nav">
     <ul class="nav__list container">
 
-    <?php
-        $mode = 'footer';
-        include 'templates/_partials/nav.php';
-    ?>
+        <?= include_template('_partials/nav.php', array_merge(
+            [
+                'mode' => 'footer'
+            ],
+            compact(
+                'categories'
+            )
+        )); ?>
 
     </ul>
 </nav>
@@ -31,7 +35,7 @@
             type="text"
             name="email"
             placeholder="Введите e-mail"
-            value="<?= htmlspecialchars($form_data['email'] ?? ''); ?>"
+            value="<?= esc($form_data['email'] ?? ''); ?>"
         >
         <span class="form__error"><?= $errors['email'] ?></span>
     </div>
@@ -52,7 +56,7 @@
             type="text"
             name="name"
             placeholder="Введите имя"
-            value="<?= htmlspecialchars($form_data['name'] ?? ''); ?>"
+            value="<?= esc($form_data['name'] ?? ''); ?>"
         >
         <span class="form__error"><?= $errors['name'] ?></span>
     </div>
@@ -62,8 +66,7 @@
             id="message"
             name="message"
             placeholder="Напишите как с вами связаться"
-            value="<?= htmlspecialchars($form_data['message'] ?? ''); ?>"
-        ></textarea>
+        ><?= esc($form_data['message'] ?? '') ?></textarea>
         <span class="form__error"><?= $errors['message'] ?></span>
     </div>
 

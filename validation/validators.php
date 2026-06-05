@@ -108,20 +108,30 @@ function validateCategory(string $category, array $allowed_list): ?string {
 }
 
 /**
- * Checking the correctness of the email addresses and its uniqueness
+ * Verifies the uniqueness of the email among existing users
  *
  * @param array $allowed_list List of existing email addresses in the database
  * @param string $email
  *
  * @return string|null Error message or null
  */
-function validateEmail(string $email, array $allowed_list): ?string {
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        return "Неверный email";
-    }
-
+function validateUniqueEmail(string $email, array $allowed_list): ?string {
     if (in_array($email, $allowed_list)) {
-       return "Указанный email уже используется другим пользователем";
+        return "Указанный email уже используется другим пользователем";
+    }
+    return null;
+}
+
+/**
+ * Checks the correctness of the email format
+ *
+ * @param string $email
+ *
+ * @return string|null Error message or null
+ */
+function validateEmailFormat(string $email): ?string {
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return "Некорректный email";
     }
     return null;
 }
@@ -206,4 +216,32 @@ function processLotImage(array &$errors, array &$data): void {
     } else {
         $errors[LOT_IMAGE_FIELD] = "Ошибка загрузки файла";
     };
+}
+
+/**
+ * Validates email and password when a user logs in
+ *
+ * @param array $allowed_list Associative array of users [email => password_hash]
+ * @param array $form_data The form's data array
+ * @param array $errors Array of errors
+ *
+ * @return void
+ */
+function validateLoginPassword(array $allowed_list, array $form_data, array &$errors): void {
+    define('PASSWORD_FIELD', 'password');
+    define('EMAIL_FIELD', 'email');
+
+    $email = $form_data[EMAIL_FIELD];
+
+    if (!array_key_exists($email, $allowed_list)) {
+        $errors[EMAIL_FIELD] = "Пользователя с таким email не существует";
+        return;
+    }
+
+    if (!isset($errors['password'])) {
+        if (!password_verify($form_data[PASSWORD_FIELD], $allowed_list[$email])) {
+            $errors[PASSWORD_FIELD] = "Указан невeрный пароль";
+            return;
+        }
+    }
 }

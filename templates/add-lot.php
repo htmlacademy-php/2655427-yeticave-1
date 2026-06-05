@@ -9,10 +9,14 @@
 <nav class="nav">
     <ul class="nav__list container">
 
-        <?php
-            $mode = 'footer';
-            include 'templates/_partials/nav.php';
-        ?>
+        <?= include_template('_partials/nav.php', array_merge(
+            [
+                'mode' => 'footer'
+            ],
+            compact(
+                'categories'
+            )
+        )); ?>
 
     </ul>
 </nav>
@@ -32,7 +36,7 @@
                 type="text"
                 name="lot-name"
                 placeholder="Введите наименование лота"
-                value="<?= htmlspecialchars($form_data['lot-name'] ?? ''); ?>"
+                value="<?= esc($form_data['lot-name'] ?? '') ?>"
             >
             <span class="form__error"><?= $errors['lot-name'] ?></span>
         </div>
@@ -81,7 +85,7 @@
                 type="number"
                 name="lot-rate"
                 placeholder="0"
-                value="<?= htmlspecialchars($form_data['lot-rate'] ?? ''); ?>"
+                value="<?= esc($form_data['lot-rate'] ?? ''); ?>"
             >
             <span class="form__error"><?= $errors['lot-rate'] ?></span>
         </div>
@@ -92,7 +96,7 @@
                 type="number"
                 name="lot-step"
                 placeholder="0"
-                value="<?= htmlspecialchars($form_data['lot-step'] ?? ''); ?>"
+                value="<?= esc($form_data['lot-step'] ?? '') ?>"
             >
             <span class="form__error"><?= $errors['lot-step'] ?></span>
         </div>
@@ -103,7 +107,7 @@
                 type="date"
                 id="lot-date"
                 name="lot-date"
-                value="<?= htmlspecialchars($form_data['lot-date'] ?? ''); ?>"
+                value="<?= esc($form_data['lot-date'] ?? '') ?>"
             >
             <span class="form__error"><?= $errors['lot-date'] ?></span>
         </div>

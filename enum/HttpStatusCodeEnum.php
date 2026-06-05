@@ -8,4 +8,5 @@ enum HttpStatusCodeEnum: int
 {
     case HttpOk = 200;
     case HttpNotFound = 404;
+    case HttpForBidden = 403;
 }

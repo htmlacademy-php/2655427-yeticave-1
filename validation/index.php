@@ -3,6 +3,35 @@
 declare(strict_types=1);
 
 /**
+ * Validates form fields according to the specified validation rules
+ * Fills the errors array with validation messages
+ *
+ * @param array $rules Validation rules for form fields
+ * @param array $form_data The form's data array
+ * @param array $errors Array of errors
+ * @param array $allowed_list List of valid categories for category validation
+ *
+ * @return void
+ */
+function validateFormData(array $rules, array $form_data, array &$errors, array $allowed_list = []): void {
+
+    foreach ($rules as $field => $validators) {
+
+        $value = $form_data[$field] ?? '';
+
+        foreach ($validators as $rule) {
+
+            $error = validateByRule($rule, $value, $allowed_list);
+
+            if ($error !== null) {
+                $errors[$field] = $error;
+                break;
+            }
+        }
+    }
+}
+
+/**
  * Converts a validator parameter string into an associative array
  *
  * @param string $params_string
@@ -54,61 +83,44 @@ function validateByRule(string $rule, string $value, array $allowed_list): ?stri
         $params = parseValidatorParams($params_string);
     }
 
+    $result = null;
+
     switch ($validator) {
         case 'required':
-            return checkingEmptyField($value);
+            $result = checkingEmptyField($value);
+            break;
 
         case 'int':
-            return validatePositiveInt($value, $params);
+            $result = validatePositiveInt($value, $params);
+            break;
 
         case 'string':
-            return validateText($value, $params);
+            $result = validateText($value, $params);
+            break;
 
         case 'date':
-            return validateDate($value, $params);
+            $result = validateDate($value, $params);
+            break;
 
         case 'category':
-            return validateCategory($value, $allowed_list);
+            $result = validateCategory($value, $allowed_list);
+            break;
+
+        case 'unique_email':
+            $result = validateUniqueEmail($value, $allowed_list);
+            break;
 
         case 'email':
-            return validateEmail($value, $allowed_list);
+            $result = validateEmailFormat($value);
+            break;
 
         case 'password':
-            return validatePassword($value);
+            $result = validatePassword($value);
+            break;
 
         case 'name':
-            return validateName($value);
-
-        default:
-            return null;
+            $result = validateName($value);
+            break;
     }
-}
-
-/**
- * Validates form fields according to the specified validation rules
- * Fills the errors array with validation messages
- *
- * @param array $rules Validation rules for form fields
- * @param array $form_data The form's data array
- * @param array $errors Array of errors
- * @param array $allowed_list List of valid categories for category validation
- *
- * @return void
- */
-function validateFormData(array $rules, array $form_data, array &$errors, array $allowed_list): void {
-
-    foreach ($rules as $field => $validators) {
-
-        $value = $form_data[$field] ?? '';
-
-        foreach ($validators as $rule) {
-
-            $error = validateByRule($rule, $value, $allowed_list);
-
-            if ($error !== null) {
-                $errors[$field] = $error;
-                break;
-            }
-        }
-    }
+    return $result;
 }

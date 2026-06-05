@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 require_once 'init.php';
 
-/** @var array  $categories */
-/** @var array  $user */
 /** @var mysqli $con */
+/** @var bool $is_auth */
+/** @var string $user_name */
+/** @var array  $categories */
 
 $category_slug = filter_input(INPUT_GET, 'category');
-$category_lots = getLotsByCategory($con, $category_slug);
+$category_lots = getLotsByCategorySlug($con, $category_slug);
 $category_name = getCategoryName($con, $category_slug);
 
 $page_content = include_template('all-lot.php', compact(
@@ -22,13 +23,13 @@ $page_content = include_template('all-lot.php', compact(
 /** @noinspection PhpPipeOperatorCanBeUsedInspection */
 $layout_content = include_template('layout/main.php', array_merge(
     [
-        'title'     => 'Все лоты',
-        'is_auth'   => $user['is_auth'],
-        'user_name' => $user['user_name']
+        'title'     => 'Все лоты'
     ],
     compact(
+        'is_auth',
+        'user_name',
         'page_content',
-        'categories'
+        'categories',
     )
 ));
 

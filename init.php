@@ -21,8 +21,11 @@ require_once 'validation/validators.php';
 $con = connectToMySQL();
 
 $categories = getAllCategories($con);
+$users = getAllUsers($con);
 
-$user = [
-    'is_auth'   => 0,
-    'user_name' => 'Виктория'
-];
+session_start();
+
+$is_auth = isset($_SESSION['user']);
+
+$user_name = $_SESSION['user']['name'] ?? '';
+$user_id = $_SESSION['user']['id'] ?? null;

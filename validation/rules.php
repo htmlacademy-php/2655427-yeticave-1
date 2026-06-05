@@ -2,13 +2,9 @@
 
 declare(strict_types=1);
 
-const VALIDATOR_SEPARATOR = ':';
-const VALIDATOR_PARAMS_SEPARATOR = '&';
-const VALIDATOR_PARAM_VALUE_SEPARATOR = '=';
-
 const ADD_LOT_FORM_KEY = 'add-lot';
 const SIGN_UP_FORM_KEY = 'sign-up';
-
+const LOGIN_FORM_KEY = 'login';
 
 const VALIDATION_RULES = [
     ADD_LOT_FORM_KEY  => [
@@ -41,7 +37,8 @@ const VALIDATION_RULES = [
         'email'       => [
             'required',
             'string:min=4&max=128',
-            'email'
+            'email',
+            'unique_email'
         ],
         'name'        => [
             'required',
@@ -56,6 +53,15 @@ const VALIDATION_RULES = [
         'message'     => [
             'required',
             'string:min=5'
+        ]
+    ],
+    LOGIN_FORM_KEY    => [
+        'email'       => [
+            'required',
+            'email'
+        ],
+        'password'    => [
+            'required'
         ]
     ]
 ];

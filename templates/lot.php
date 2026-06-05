@@ -1,19 +1,25 @@
 <?php
 
+/** @var bool $is_auth */
+/** @var int|null $user_id */
 /** @var array $categories */
 /** @var array|null $lot */
-/** @var array|null $history_bids */
-
+/** @var array|null $bids */
+/** @var array|null $last_bid */
 
 ?>
 
 <nav class="nav">
     <ul class="nav__list container">
 
-        <?php
-            $mode = 'footer';
-            include 'templates/_partials/nav.php';
-        ?>
+        <?= include_template('_partials/nav.php', array_merge(
+            [
+                'mode' => 'footer'
+            ],
+            compact(
+                'categories'
+            )
+        )); ?>
 
     </ul>
 </nav>
@@ -53,28 +59,30 @@
                         Мин. ставка <span><?= formatPrice(esc($lot['current_price'] + $lot['bid_step'] ?? '')) ?></span>
                     </div>
                 </div>
-                <form class="lot-item__form"
-                    action="https://echo.htmlacademy.ru"
-                    method="post"
-                    autocomplete="off"
-                >
-                    <p class="lot-item__form-item form__item form__item--invalid">
-                        <label for="cost">Ваша ставка</label>
-                            <input id="cost"
-                                type="text"
-                                name="cost"
-                                placeholder="<?= formatPrice(esc($lot['current_price'] + $lot['bid_step'] ?? '')) ?>"
-                            >
-                            <span class="form__error">Вы не сделали ставку</span>
-                    </p>
-                    <button type="submit" class="button">Сделать ставку</button>
-                </form>
+                <?php if ($is_auth === true && $user_id != $lot['author_id'] && ($last_bid['user_id'] ?? null) != $user_id): ?>
+                    <form class="lot-item__form"
+                        action="https://echo.htmlacademy.ru"
+                        method="post"
+                        autocomplete="off"
+                    >
+                        <p class="lot-item__form-item form__item form__item--invalid">
+                            <label for="cost">Ваша ставка</label>
+                                <input id="cost"
+                                    type="text"
+                                    name="cost"
+                                    placeholder="<?= formatPrice(esc($lot['current_price'] + $lot['bid_step'] ?? '')) ?>"
+                                >
+                                <span class="form__error">Вы не сделали ставку</span>
+                        </p>
+                        <button type="submit" class="button">Сделать ставку</button>
+                    </form>
+                <?php endif; ?>
             </div>
             <div class="history">
-                <h3>История ставок (<span><?= count($history_bids) ?></span>)</h3>
+                <h3>История ставок (<span><?= count($bids) ?></span>)</h3>
                 <table class="history__list">
 
-                    <?php foreach ($history_bids as $bid): ?>
+                    <?php foreach ($bids as $bid): ?>
                         <tr class="history__item">
                             <td class="history__name"><?= $bid['user_name'] ?></td>
                             <td class="history__price"><?= $bid['amount'] ?> р</td>
