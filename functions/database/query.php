@@ -18,6 +18,7 @@ function getNewLots(mysqli $connection): array {
         category.name AS category_name,
         lot.expire_date
     FROM `lot`
+    LEFT JOIN `bid` ON bid.lot_id = lot.id
     JOIN `category` ON category.id = lot.category_id
     WHERE lot.expire_date > NOW()
     ORDER BY lot.created_at DESC
@@ -212,4 +213,28 @@ function addUser(mysqli $connection, array $data): string|int|null {
         return mysqli_insert_id($connection);
     }
     return null;
+}
+
+
+
+function getAllLotsBySearch(mysqli $connection, string $value) {
+    $sql = "SELECT
+        lot.id AS lot_id,
+        lot.title,
+        lot.start_price,
+        lot.img_url,
+        category.name AS category_name,
+        lot.expire_date
+    FROM `lot`
+    JOIN `category` ON category.id = lot.category_id
+    WHERE MATCH(lot.title,lot.description) AGAINST(?)
+    ORDER BY lot.created_at DESC
+    LIMIT 9";
+
+
+    $stmt = db_get_prepare_stmt($connection, $sql, [$value]);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }

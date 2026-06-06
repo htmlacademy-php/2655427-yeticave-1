@@ -10,7 +10,7 @@ use enum\HttpStatusCodeEnum;
 /** @var bool $is_auth */
 /** @var string $user_name */
 /** @var int|null $user_id */
-/** @var array  $categories */
+/** @var array $categories */
 
 $lot_id = intval(filter_input(INPUT_GET, 'id'));
 $lot = getLotById($con, $lot_id);

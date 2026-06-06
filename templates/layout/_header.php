@@ -19,7 +19,7 @@
         <form
             class="main-header__search"
             method="get"
-            action="https://echo.htmlacademy.ru"
+            action="search.php"
             autocomplete="off"
         >
             <input
@@ -30,7 +30,6 @@
             <input
                 class="main-header__search-btn"
                 type="submit"
-                name="find"
                 value="Найти"
             >
         </form>

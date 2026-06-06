@@ -1,6 +1,7 @@
 <?php
 
-/** @var array $lot */
+/** @var array|null $lot */
+/** @var array|null $bids */
 
 ?>
 

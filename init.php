@@ -7,10 +7,10 @@ require_once 'util/constant.php';
 require_once 'enum/HttpMethodEnum.php';
 require_once 'enum/HttpStatusCodeEnum.php';
 
+require_once 'functions/helpers.php';
+require_once 'functions/functions.php';
 require_once 'functions/database/core.php';
 require_once 'functions/database/query.php';
-require_once 'functions/functions.php';
-require_once 'functions/helpers.php';
 require_once 'functions/form.php';
 
 require_once 'validation/const.php';
