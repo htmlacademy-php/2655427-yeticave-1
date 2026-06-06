@@ -5,8 +5,7 @@ declare(strict_types=1);
 require_once 'init.php';
 
 /** @var mysqli $con */
-/** @var bool $is_auth */
-/** @var string $user_name */
+/** @var bool $auth_user */
 /** @var array  $categories */
 
 $lots = getNewLots($con);
@@ -19,11 +18,10 @@ $page_content = include_template('index.php', compact(
 /** @noinspection PhpPipeOperatorCanBeUsedInspection */
 $layout_content = include_template('layout/main.php', array_merge(
     [
-        'title'     => 'Главная'
+        'title' => 'Главная'
     ],
     compact(
-        'is_auth',
-        'user_name',
+        'auth_user',
         'page_content',
         'categories'
     )

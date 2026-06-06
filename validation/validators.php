@@ -110,13 +110,12 @@ function validateCategory(string $category, array $allowed_list): ?string {
 /**
  * Verifies the uniqueness of the email among existing users
  *
- * @param array $allowed_list List of existing email addresses in the database
- * @param string $email
+ * @param array $users_by_email User information by email
  *
  * @return string|null Error message or null
  */
-function validateUniqueEmail(string $email, array $allowed_list): ?string {
-    if (in_array($email, $allowed_list)) {
+function validateUniqueEmail(array $users_by_email): ?string {
+    if ($users_by_email) {
         return "Указанный email уже используется другим пользователем";
     }
     return null;
@@ -174,74 +173,4 @@ function validateName(string $name): ?string {
         return "Некорректное имя пользователя";
     }
     return null;
-}
-
-/**
- * Validates the uploaded image
- *
- * @param array $errors Array of errors
- * @param array $data The form's data array
- *
- * @return void
- */
-function processLotImage(array &$errors, array &$data): void {
-    define('LOT_IMAGE_FIELD', 'lot-img');
-
-    if (empty($_FILES[LOT_IMAGE_FIELD]['name'])) {
-        $errors[LOT_IMAGE_FIELD] = "Вы не загрузили файл";
-        return;
-    }
-
-    if ($_FILES[LOT_IMAGE_FIELD]['size'] > 5 * 1024 * 1024) {
-        $errors[LOT_IMAGE_FIELD] = "Файл слишком большой (макс. 5 MB)";
-        return;
-    }
-
-    $tmp_name = $_FILES[LOT_IMAGE_FIELD]['tmp_name'];
-    $file_type = mime_content_type($tmp_name);
-    $extension = strtolower(pathinfo($_FILES[LOT_IMAGE_FIELD]['name'], PATHINFO_EXTENSION));
-
-    if (
-        !in_array($file_type, ALLOWED_IMAGE_MIME_TYPES, true) ||
-        !in_array($extension, ALLOWED_IMAGE_EXTENSIONS, true)
-    ) {
-        $errors[LOT_IMAGE_FIELD] = "Допустимы файлы: .png, .jpg, .jpeg";
-        return;
-    }
-
-    $filename = uniqid() . '.' . $extension;
-
-    if (move_uploaded_file($tmp_name, 'uploads/' . $filename)) {
-        $data[LOT_IMAGE_FIELD] = 'uploads/' . $filename;
-    } else {
-        $errors[LOT_IMAGE_FIELD] = "Ошибка загрузки файла";
-    };
-}
-
-/**
- * Validates email and password when a user logs in
- *
- * @param array $allowed_list Associative array of users [email => password_hash]
- * @param array $form_data The form's data array
- * @param array $errors Array of errors
- *
- * @return void
- */
-function validateLoginPassword(array $allowed_list, array $form_data, array &$errors): void {
-    define('PASSWORD_FIELD', 'password');
-    define('EMAIL_FIELD', 'email');
-
-    $email = $form_data[EMAIL_FIELD];
-
-    if (!array_key_exists($email, $allowed_list)) {
-        $errors[EMAIL_FIELD] = "Пользователя с таким email не существует";
-        return;
-    }
-
-    if (!isset($errors['password'])) {
-        if (!password_verify($form_data[PASSWORD_FIELD], $allowed_list[$email])) {
-            $errors[PASSWORD_FIELD] = "Указан невeрный пароль";
-            return;
-        }
-    }
 }

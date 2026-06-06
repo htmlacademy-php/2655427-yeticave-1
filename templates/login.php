@@ -3,7 +3,6 @@
 /** @var array $categories */
 /** @var array $errors */
 /** @var array $form_data */
-/** @var array $users */
 
 ?>
 

@@ -7,9 +7,7 @@ require_once 'init.php';
 use enum\HttpStatusCodeEnum;
 
 /** @var mysqli $con */
-/** @var bool $is_auth */
-/** @var string $user_name */
-/** @var int|null $user_id */
+/** @var bool $auth_user */
 /** @var array $categories */
 
 $lot_id = intval(filter_input(INPUT_GET, 'id'));
@@ -23,8 +21,7 @@ if (!$lot) {
 }
 
 $page_content = include_template('lot.php', compact(
-    'is_auth',
-    'user_id',
+    'auth_user',
     'categories',
     'lot',
     'bids',
@@ -34,11 +31,10 @@ $page_content = include_template('lot.php', compact(
 /** @noinspection PhpPipeOperatorCanBeUsedInspection */
 $layout_content = include_template('layout/main.php', array_merge(
     [
-        'title'     => $lot['title']
+        'title' => $lot['title']
     ],
     compact(
-        'is_auth',
-        'user_name',
+        'auth_user',
         'page_content',
         'categories'
     )

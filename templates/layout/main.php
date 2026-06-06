@@ -2,8 +2,7 @@
 
 /** @var string $title */
 /** @var string $page_content */
-/** @var string $is_auth */
-/** @var string $user_name */
+/** @var array $auth_user */
 /** @var array $categories */
 
 ?>
@@ -21,7 +20,7 @@
 <body>
     <div class="page-wrapper">
 
-        <?= include_template('layout/_header.php',compact('is_auth', 'user_name')) ?>
+        <?= include_template('layout/_header.php',compact('auth_user')) ?>
 
         <main><?= $page_content ?></main>
     </div>

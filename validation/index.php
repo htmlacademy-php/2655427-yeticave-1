@@ -107,7 +107,7 @@ function validateByRule(string $rule, string $value, array $allowed_list): ?stri
             break;
 
         case 'unique_email':
-            $result = validateUniqueEmail($value, $allowed_list);
+            $result = validateUniqueEmail($allowed_list);
             break;
 
         case 'email':
@@ -123,4 +123,32 @@ function validateByRule(string $rule, string $value, array $allowed_list): ?stri
             break;
     }
     return $result;
+}
+
+/**
+ * Validates email and password when a user logs in
+ *
+ * @param array $users_by_email User information by email
+ * @param array $form_data The form's data array
+ * @param array $errors Array of errors
+ *
+ * @return void
+ */
+function validateLoginPassword(array $users_by_email, array $form_data, array &$errors): void {
+    define('PASSWORD_FIELD', 'password');
+    define('EMAIL_FIELD', 'email');
+
+    $email = $form_data[EMAIL_FIELD];
+
+    if (!$users_by_email) {
+        $errors[EMAIL_FIELD] = "Пользователя с таким email не существует";
+        return;
+    }
+
+    if (!isset($errors['password'])) {
+        if (!password_verify($form_data[PASSWORD_FIELD], $users_by_email['password_hash'])) {
+            $errors[PASSWORD_FIELD] = "Указан невeрный пароль";
+            return;
+        }
+    }
 }

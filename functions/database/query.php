@@ -173,23 +173,31 @@ function addLot(mysqli $connection, array $data): string|int|null {
 }
 
 /**
- * Get all the information about users
+ * Get user information by email
  *
  * @param mysqli $connection
+ * @param string $email
  *
- * @return array
+ * @return array|null
  */
-function getAllUsers(mysqli $connection) {
+function getUserByEmail(mysqli $connection, string $email): ?array {
     $sql = "SELECT
         id,
-        created_at,
         email,
         name,
-        password_hash,
-        contact_info
-    FROM `user`";
+        password_hash
+    FROM `user`
+    WHERE email = ?";
 
-    return fetchAll($connection, $sql);
+    $stmt = mysqli_prepare($connection, $sql);
+    mysqli_stmt_bind_param($stmt, 's', $email);
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+
+    $user = mysqli_fetch_assoc($result);
+
+    return $user ?: null;
 }
 
 /**
@@ -215,9 +223,15 @@ function addUser(mysqli $connection, array $data): string|int|null {
     return null;
 }
 
-
-
-function getAllLotsBySearch(mysqli $connection, string $value) {
+/**
+ * Gets lots by search query using full-text search
+ *
+ * @param mysqli $connection
+ * @param string $value Search query string
+ *
+ * @return array List of found lots
+ */
+function getAllLotsBySearch(mysqli $connection, string $value): array {
     $sql = "SELECT
         lot.id AS lot_id,
         lot.title,
@@ -230,7 +244,6 @@ function getAllLotsBySearch(mysqli $connection, string $value) {
     WHERE MATCH(lot.title,lot.description) AGAINST(?)
     ORDER BY lot.created_at DESC
     LIMIT 9";
-
 
     $stmt = db_get_prepare_stmt($connection, $sql, [$value]);
     mysqli_stmt_execute($stmt);

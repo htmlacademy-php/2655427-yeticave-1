@@ -7,8 +7,7 @@ require_once 'init.php';
 use enum\HttpMethodEnum;
 
 /** @var mysqli $con */
-/** @var bool $is_auth */
-/** @var string $user_name */
+/** @var array $auth_user */
 /** @var array  $categories */
 
 $errors = [];
@@ -16,9 +15,9 @@ $form_data = [];
 
 if ($_SERVER['REQUEST_METHOD'] === HttpMethodEnum::POST->value) {
     $form_data = array_map('trim', $_POST);
-    $emails = array_column(getAllUsers($con), 'email');
+    $user = getUserByEmail($con, $form_data['email']) ?? [];
 
-    validateFormData(VALIDATION_RULES[SIGN_UP_FORM_KEY], $form_data, $errors, $emails);
+    validateFormData(VALIDATION_RULES[SIGN_UP_FORM_KEY], $form_data, $errors, $user);
 
     $errors = array_filter($errors);
 
@@ -42,13 +41,12 @@ $page_content = include_template('sign-up.php', compact(
 /** @noinspection PhpPipeOperatorCanBeUsedInspection */
 $layout_content = include_template('layout/main.php', array_merge(
     [
-        'title'     => 'Регистрация'
+        'title' => 'Регистрация'
     ],
     compact(
         'page_content',
         'categories',
-        'is_auth',
-        'user_name'
+        'auth_user'
     )
 ));
 

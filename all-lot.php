@@ -5,8 +5,7 @@ declare(strict_types=1);
 require_once 'init.php';
 
 /** @var mysqli $con */
-/** @var bool $is_auth */
-/** @var string $user_name */
+/** @var bool $auth_user */
 /** @var array  $categories */
 
 $category_slug = filter_input(INPUT_GET, 'category');
@@ -23,11 +22,10 @@ $page_content = include_template('all-lot.php', compact(
 /** @noinspection PhpPipeOperatorCanBeUsedInspection */
 $layout_content = include_template('layout/main.php', array_merge(
     [
-        'title'     => 'Все лоты'
+        'title' => 'Все лоты'
     ],
     compact(
-        'is_auth',
-        'user_name',
+        'auth_user',
         'page_content',
         'categories',
     )

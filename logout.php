@@ -2,5 +2,5 @@
 
 session_start();
 
-unset($_SESSION['user']);
+unset($_SESSION[USER_SESSION_KEY]);
 header("Location: /index.php");

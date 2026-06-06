@@ -1,7 +1,6 @@
 <?php
 
-/** @var int $is_auth */
-/** @var string $user_name */
+/** @var array $auth_user */
 
 ?>
 
@@ -36,9 +35,9 @@
         <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
         <nav class="user-menu">
 
-            <?php if ($is_auth): ?>
+            <?php if (isset($auth_user['id'])): ?>
                 <div class="user-menu__logged">
-                    <p><?= esc($user_name) ?></p>
+                    <p><?= esc($auth_user['name']) ?></p>
                     <a class="user-menu__bets" href="markup/my-bets.html">Мои ставки</a>
                     <a class="user-menu__logout" href="logout.php">Выход</a>
                 </div>

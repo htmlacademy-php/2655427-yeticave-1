@@ -1,7 +1,6 @@
 <?php
 
-/** @var bool $is_auth */
-/** @var int|null $user_id */
+/** @var array $auth_user */
 /** @var array $categories */
 /** @var array|null $lot */
 /** @var array|null $bids */
@@ -59,7 +58,7 @@
                         Мин. ставка <span><?= formatPrice(esc($lot['current_price'] + $lot['bid_step'] ?? '')) ?></span>
                     </div>
                 </div>
-                <?php if ($is_auth === true && $user_id != $lot['author_id'] && ($last_bid['user_id'] ?? null) != $user_id): ?>
+                <?php if ($auth_user['id'] === true && $auth_user['id'] != $lot['author_id'] && ($last_bid['user_id'] ?? null) != $auth_user['id']): ?>
                     <form class="lot-item__form"
                         action="https://echo.htmlacademy.ru"
                         method="post"
