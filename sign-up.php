@@ -15,7 +15,7 @@ $form_data = [];
 
 if ($_SERVER['REQUEST_METHOD'] === HttpMethodEnum::POST->value) {
     $form_data = array_map('trim', $_POST);
-    $user = getUserByEmail($con, $form_data['email']) ?? [];
+    $user = getUserByEmail($con, $form_data[EMAIL_FIELD]);
 
     validateFormData(VALIDATION_RULES[SIGN_UP_FORM_KEY], $form_data, $errors, $user);
 

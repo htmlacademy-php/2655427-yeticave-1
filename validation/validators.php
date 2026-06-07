@@ -110,11 +110,11 @@ function validateCategory(string $category, array $allowed_list): ?string {
 /**
  * Verifies the uniqueness of the email among existing users
  *
- * @param array $users_by_email User information by email
+ * @param array|null $users_by_email User information by email
  *
  * @return string|null Error message or null
  */
-function validateUniqueEmail(array $users_by_email): ?string {
+function validateUniqueEmail(?array $users_by_email): ?string {
     if ($users_by_email) {
         return "Указанный email уже используется другим пользователем";
     }
@@ -171,6 +171,37 @@ function validatePassword(string $password): ?string {
 function validateName(string $name): ?string {
     if (!preg_match("/^[\p{L}\- ]+$/u", $name)) {
         return "Некорректное имя пользователя";
+    }
+    return null;
+}
+
+/**
+ * Checks whether a user with the specified email exists
+ *
+ * @param array|null $user User information by email
+ *
+ * @return string|null Error message or null
+ */
+function validateUserExists(?array $user): ?string {
+    if ($user === null) {
+        return "Пользователя с таким email не существует";
+    }
+    return null;
+}
+
+/**
+ * Verifies whether the entered password matches the user's password hash
+ *
+ * @param array|null $user User information by email
+ * @param array|null $form_data The form's data array
+ *
+ * @return string|null Error message or null
+ */
+function validateUserPassword(?array $user, array $form_data): ?string {
+    if (isset($user)) {
+        if (!password_verify($form_data[PASSWORD_FIELD], $user['password_hash'])) {
+            return "Указан неверный пароль";
+        }
     }
     return null;
 }

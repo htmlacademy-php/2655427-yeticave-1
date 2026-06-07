@@ -58,10 +58,12 @@ const VALIDATION_RULES = [
     LOGIN_FORM_KEY    => [
         'email'       => [
             'required',
-            'email'
+            'email',
+            'user_exists'
         ],
         'password'    => [
-            'required'
+            'required',
+            'password_match'
         ]
     ]
 ];

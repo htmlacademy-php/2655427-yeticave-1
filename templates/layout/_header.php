@@ -1,6 +1,7 @@
 <?php
 
 /** @var array $auth_user */
+/** @var string $search_value */
 
 ?>
 
@@ -25,6 +26,7 @@
                 type="search"
                 name="search"
                 placeholder="Поиск лота"
+                value="<?= esc($search_value) ?>"
             >
             <input
                 class="main-header__search-btn"

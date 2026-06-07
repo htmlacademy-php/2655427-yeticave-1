@@ -36,7 +36,8 @@ $layout_content = include_template('layout/main.php', array_merge(
     compact(
         'auth_user',
         'page_content',
-        'categories'
+        'categories',
+        'search_value'
     )
 ));
 

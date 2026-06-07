@@ -197,7 +197,7 @@ function getUserByEmail(mysqli $connection, string $email): ?array {
 
     $user = mysqli_fetch_assoc($result);
 
-    return $user ?: null;
+    return $user ?? null;
 }
 
 /**

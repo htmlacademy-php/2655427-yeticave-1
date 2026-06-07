@@ -21,18 +21,14 @@ $form_data = [];
 
 if ($_SERVER['REQUEST_METHOD'] === HttpMethodEnum::POST->value) {
     $form_data = array_map('trim', $_POST);
-    $user = getUserByEmail($con, $form_data['email']);
+    $user = getUserByEmail($con, $form_data[EMAIL_FIELD]);
 
-    validateFormData(VALIDATION_RULES[LOGIN_FORM_KEY], $form_data, $errors);
-
-    if (empty($errors)) {
-        validateLoginPassword($user, $form_data, $errors);
-    }
+    validateFormData(VALIDATION_RULES[LOGIN_FORM_KEY], $form_data, $errors, $user);
 
     $errors = array_filter($errors);
 
     if (empty($errors)) {
-        $_SESSION['user'] = [
+        $_SESSION[USER_SESSION_KEY] = [
             'id'   => $user['id'],
             'name' => $user['name']
         ];
@@ -44,7 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === HttpMethodEnum::POST->value) {
 
 $page_content = include_template('login.php', compact(
     'categories',
-    'errors'
+    'errors',
+    'form_data'
 ));
 
 /** @noinspection PhpPipeOperatorCanBeUsedInspection */
