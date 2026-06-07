@@ -8,17 +8,16 @@ use enum\HttpMethodEnum;
 use enum\HttpStatusCodeEnum;
 
 /** @var mysqli $con */
-/** @var bool $is_auth */
-/** @var string $user_name */
+/** @var bool $auth_user */
 /** @var array  $categories */
+
+if (!isset($auth_user['id'])) {
+    http_response_code(HttpStatusCodeEnum::HttpForbidden->value);
+    exit();
+}
 
 $errors = [];
 $form_data = [];
-
-if (!$is_auth) {
-    http_response_code(HttpStatusCodeEnum::HttpForBidden->value);
-    exit();
-}
 
 if ($_SERVER['REQUEST_METHOD'] === HttpMethodEnum::POST->value) {
     $form_data = array_map('trim', $_POST);
@@ -50,11 +49,10 @@ $page_content = include_template('add-lot.php', compact(
 /** @noinspection PhpPipeOperatorCanBeUsedInspection */
 $layout_content = include_template('layout/main.php', array_merge(
     [
-        'title'     => 'Добавление лота'
+        'title' => 'Добавление лота'
     ],
     compact(
-        'is_auth',
-        'user_name',
+        'auth_user',
         'page_content',
         'categories'
     )

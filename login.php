@@ -4,65 +4,53 @@ declare(strict_types=1);
 
 require_once 'init.php';
 
+use enum\HttpStatusCodeEnum;
 use enum\HttpMethodEnum;
 
 /** @var mysqli $con */
-/** @var bool $is_auth */
-/** @var string $user_name */
-/** @var array  $users */
+/** @var bool $auth_user */
 /** @var array  $categories */
+
+if (isset($auth_user['id'])) {
+    http_response_code(HttpStatusCodeEnum::HttpForbidden->value);
+    exit();
+}
 
 $errors = [];
 $form_data = [];
 
-$auth_users = indexByEmail('email', 'password_hash', $users);
-
 if ($_SERVER['REQUEST_METHOD'] === HttpMethodEnum::POST->value) {
     $form_data = array_map('trim', $_POST);
+    $user = getUserByEmail($con, $form_data[EMAIL_FIELD]);
 
-    validateFormData(VALIDATION_RULES[LOGIN_FORM_KEY], $form_data, $errors);
-
-    if (empty($errors)) {
-        validateLoginPassword($auth_users, $form_data, $errors);
-    }
+    validateFormData(VALIDATION_RULES[LOGIN_FORM_KEY], $form_data, $errors, $user);
 
     $errors = array_filter($errors);
 
     if (empty($errors)) {
-        $found_user = null;
-
-        foreach ($users as $current_user => $user) {
-            if ($user['email'] === $form_data['email']) {
-                $found_user = $user;
-                break;
-            }
-        }
-
-        if ($found_user) {
-            $_SESSION['user'] = [
-                'id' => $found_user['id'],
-                'name' => $found_user['name']
-            ];
-            header("Location: index.php");
-            exit;
-        }
+        $_SESSION[USER_SESSION_KEY] = [
+            'id'   => $user['id'],
+            'name' => $user['name']
+        ];
+        header("Location: index.php");
+        exit;
     }
 }
 
+
 $page_content = include_template('login.php', compact(
     'categories',
-    'users',
-    'errors'
+    'errors',
+    'form_data'
 ));
 
 /** @noinspection PhpPipeOperatorCanBeUsedInspection */
 $layout_content = include_template('layout/main.php', array_merge(
     [
-        'title'     => 'Вход'
+        'title' => 'Вход'
     ],
     compact(
-        'is_auth',
-        'user_name',
+        'auth_user',
         'page_content',
         'categories'
     )

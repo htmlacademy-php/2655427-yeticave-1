@@ -38,21 +38,3 @@ function prepareUserData(array $form_data): array {
         $form_data['message']
     ];
 }
-
-/**
- * Сreate a list of registered users by email and password hash
- *
- * @param string $email
- * @param string $password_hash
- * @param array $data
- *
- * @return array
- */
-function indexByEmail($email, $password_hash, $data): array {
-    $result = [];
-
-    foreach ($data as $field) {
-        $result[$field[$email]] = $field[$password_hash];
-    }
-    return $result;
-}

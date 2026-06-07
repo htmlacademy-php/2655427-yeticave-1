@@ -9,11 +9,11 @@ declare(strict_types=1);
  * @param array $rules Validation rules for form fields
  * @param array $form_data The form's data array
  * @param array $errors Array of errors
- * @param array $allowed_list List of valid categories for category validation
+ * @param array|null $allowed_list List of valid categories for category validation
  *
  * @return void
  */
-function validateFormData(array $rules, array $form_data, array &$errors, array $allowed_list = []): void {
+function validateFormData(array $rules, array $form_data, array &$errors, ?array $allowed_list = []): void {
 
     foreach ($rules as $field => $validators) {
 
@@ -21,7 +21,7 @@ function validateFormData(array $rules, array $form_data, array &$errors, array 
 
         foreach ($validators as $rule) {
 
-            $error = validateByRule($rule, $value, $allowed_list);
+            $error = validateByRule($rule, $value, $allowed_list, $form_data);
 
             if ($error !== null) {
                 $errors[$field] = $error;
@@ -41,23 +41,19 @@ function validateFormData(array $rules, array $form_data, array &$errors, array 
 function parseValidatorParams(string $params_string): array {
     $params = [];
 
-    $pairs = explode(
-        VALIDATOR_PARAMS_SEPARATOR,
-        $params_string
-    );
+    $pairs = explode(VALIDATOR_PARAMS_SEPARATOR, $params_string);
 
-    $key = $parts[0] ?? null;
-    $value = $parts[1] ?? null;
+    foreach ($pairs as $pair) {
+        $parts = explode(VALIDATOR_PARAM_VALUE_SEPARATOR, $pair);
 
-    if ($key !== null && $value !== null) {
-        foreach ($pairs as $pair) {
-            [$key, $value] = explode(
-                VALIDATOR_PARAM_VALUE_SEPARATOR,
-                $pair
-            );
+        $key = $parts[0] ?? null;
+        $value = $parts[1] ?? null;
+
+        if ($key !== null && $value !== null) {
             $params[$key] = $value;
         }
     }
+
     return $params;
 }
 
@@ -70,7 +66,7 @@ function parseValidatorParams(string $params_string): array {
  *
  * @return string|null
  */
-function validateByRule(string $rule, string $value, array $allowed_list): ?string {
+function validateByRule(string $rule, string $value, ?array $allowed_list, array $form_data): ?string {
 
     $parts = explode(VALIDATOR_SEPARATOR, $rule);
 
@@ -107,7 +103,7 @@ function validateByRule(string $rule, string $value, array $allowed_list): ?stri
             break;
 
         case 'unique_email':
-            $result = validateUniqueEmail($value, $allowed_list);
+            $result = validateUniqueEmail($allowed_list);
             break;
 
         case 'email':
@@ -120,6 +116,14 @@ function validateByRule(string $rule, string $value, array $allowed_list): ?stri
 
         case 'name':
             $result = validateName($value);
+            break;
+
+        case 'password_match':
+            $result = validateUserPassword($allowed_list, $form_data);
+            break;
+
+        case 'user_exists':
+            $result = validateUserExists($allowed_list);
             break;
     }
     return $result;

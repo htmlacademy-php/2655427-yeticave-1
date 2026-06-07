@@ -46,6 +46,7 @@
             type="password"
             name="password"
             placeholder="Введите пароль"
+            value="<?= esc($form_data['password'] ?? ''); ?>"
         >
         <span class="form__error"><?= $errors['password'] ?></span>
     </div>
