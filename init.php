@@ -23,6 +23,8 @@ $con = connectToMySQL();
 
 $categories = getAllCategories($con);
 
+session_start();
+
 $auth_user = [
     'name' => $_SESSION[USER_SESSION_KEY]['name'] ?? '',
     'id'   => $_SESSION[USER_SESSION_KEY]['id'] ?? null,
