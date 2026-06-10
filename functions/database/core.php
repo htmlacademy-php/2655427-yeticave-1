@@ -48,7 +48,7 @@ function fetchAll(mysqli $con, string $sql_query): array {
  *
  * @param mysqli $con
  * @param string $sql_query
- * @return ?array
+ * @return array|null
  */
 function fetchOne(mysqli $con, string $sql_query): array|null {
     $result = mysqli_query($con, $sql_query);

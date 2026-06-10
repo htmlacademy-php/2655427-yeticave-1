@@ -6,19 +6,23 @@ require_once 'init.php';
 
 /** @var mysqli $con */
 /** @var array $auth_user */
-/** @var array  $categories */
+/** @var array $categories */
 
-$lots = getNewLots($con);
+$bids = getBidsByUserId($con, $auth_user['id']);
+$winner_bid = getWinnerBid($con, $auth_user['id']);
 
-$page_content = include_template('index.php', compact(
+
+$page_content = include_template('my-bets.php', compact(
+    'auth_user',
     'categories',
-    'lots'
+    'bids',
+    'winner_bid'
 ));
 
 /** @noinspection PhpPipeOperatorCanBeUsedInspection */
 $layout_content = include_template('layout/main.php', array_merge(
     [
-        'title' => 'Главная'
+        'title' => 'Мои ставки'
     ],
     compact(
         'auth_user',

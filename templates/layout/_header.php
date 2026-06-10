@@ -40,7 +40,7 @@
             <?php if (isset($auth_user['id'])): ?>
                 <div class="user-menu__logged">
                     <p><?= esc($auth_user['name']) ?></p>
-                    <a class="user-menu__bets" href="markup/my-bets.html">Мои ставки</a>
+                    <a class="user-menu__bets" href="my-bets.php">Мои ставки</a>
                     <a class="user-menu__logout" href="logout.php">Выход</a>
                 </div>
             <?php else: ?>

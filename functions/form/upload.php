@@ -6,7 +6,7 @@ declare(strict_types=1);
  * Validates the uploaded image
  *
  * @param array $errors Array of errors
- * @param array $data The form's data array
+ * @param array $data   The form's data array
  *
  * @return void
  */

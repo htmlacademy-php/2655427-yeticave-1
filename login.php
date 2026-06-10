@@ -8,7 +8,7 @@ use enum\HttpStatusCodeEnum;
 use enum\HttpMethodEnum;
 
 /** @var mysqli $con */
-/** @var bool $auth_user */
+/** @var array $auth_user */
 /** @var array  $categories */
 
 if (isset($auth_user['id'])) {

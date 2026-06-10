@@ -8,7 +8,7 @@ use enum\HttpMethodEnum;
 use enum\HttpStatusCodeEnum;
 
 /** @var mysqli $con */
-/** @var bool $auth_user */
+/** @var array $auth_user */
 /** @var array  $categories */
 
 if (!isset($auth_user['id'])) {
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === HttpMethodEnum::POST->value) {
     processLotImage($errors, $form_data);
 
     if (empty($errors)) {
-        $data = prepareLotData($form_data);
+        $data = prepareLotData($form_data, $auth_user['id']);
         $lot_id = addLot($con, $data);
 
         if ($lot_id) {

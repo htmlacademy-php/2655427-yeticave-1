@@ -5,19 +5,49 @@ declare(strict_types=1);
 require_once 'init.php';
 
 use enum\HttpStatusCodeEnum;
+use enum\HttpMethodEnum;
 
 /** @var mysqli $con */
-/** @var bool $auth_user */
+/** @var array $auth_user */
 /** @var array $categories */
 
 $lot_id = intval(filter_input(INPUT_GET, 'id'));
 $lot = getLotById($con, $lot_id);
-$bids = getBidsByLotId($con, $lot_id);
-$last_bid = $bids[0] ?? null;
 
 if (!$lot) {
     http_response_code(HttpStatusCodeEnum::HttpNotFound->value);
     exit();
+}
+
+$bids = getBidsByLotId($con, $lot_id);
+$min_bid = $lot['current_price'] + $lot['bid_step'] ?? 0;
+$last_bid = $bids[0] ?? null;
+
+$errors = [];
+$form_data = [];
+
+if ($_SERVER['REQUEST_METHOD'] === HttpMethodEnum::POST->value) {
+    $form_data = array_map('trim', $_POST);
+
+    validateFormData(VALIDATION_RULES[ADD_BID_FORM_KEY], $form_data, $errors);
+
+    if (empty($errors)) {
+        if ((int)$form_data['cost'] < $min_bid) {
+            $errors['cost'] = "Минимальная ставка: $min_bid";
+        }
+    }
+
+    $errors = array_filter($errors);
+
+    if (empty($errors)) {
+        $data = prepareBidData($auth_user['id'], $lot_id, $form_data);
+        $bid = addBid($con, $data);
+
+        if ($bid) {
+            header("Location: /lot.php?id=" . $lot_id);
+            exit;
+        }
+    }
 }
 
 $page_content = include_template('lot.php', compact(
@@ -25,7 +55,9 @@ $page_content = include_template('lot.php', compact(
     'categories',
     'lot',
     'bids',
-    'last_bid'
+    'last_bid',
+    'errors',
+    'min_bid'
 ));
 
 /** @noinspection PhpPipeOperatorCanBeUsedInspection */
