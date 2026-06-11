@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 require_once 'init.php';
 
+assignWinnerBids($con);
+
 /** @var mysqli $con */
 /** @var array $auth_user */
 /** @var array  $categories */

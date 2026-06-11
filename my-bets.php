@@ -9,7 +9,7 @@ require_once 'init.php';
 /** @var array $categories */
 
 $bids = getBidsByUserId($con, $auth_user['id']);
-$winner_bid = getWinnerBid($con, $auth_user['id']);
+$winner_bid = getWinnerBidIds($con, $auth_user['id']);
 
 
 $page_content = include_template('my-bets.php', compact(
