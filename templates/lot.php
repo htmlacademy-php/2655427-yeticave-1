@@ -5,6 +5,8 @@
 /** @var array|null $lot */
 /** @var array|null $bids */
 /** @var array|null $last_bid */
+/** @var array $errors */
+/** @var int $min_bid */
 
 ?>
 
@@ -55,27 +57,35 @@
                         <span class="lot-item__cost"><?= formatPrice(esc($lot['current_price'] ?? '')) ?></span>
                     </div>
                     <div class="lot-item__min-cost">
-                        Мин. ставка <span><?= formatPrice(esc($lot['current_price'] + $lot['bid_step'] ?? '')) ?></span>
+                        Мин. ставка <span><?= formatPrice($min_bid) ?></span>
                     </div>
                 </div>
-                <?php if ($auth_user['id'] === true && $auth_user['id'] != $lot['author_id'] && ($last_bid['user_id'] ?? null) != $auth_user['id']): ?>
+
+                <?php if (
+                        $auth_user['id'] != null &&
+                        $auth_user['id'] != $lot['author_id'] &&
+                        ($last_bid['user_id'] ?? null) != $auth_user['id']
+                ): ?>
+
                     <form class="lot-item__form"
-                        action="https://echo.htmlacademy.ru"
+                        action="lot.php?id=<?= $lot['id'] ?>"
                         method="post"
                         autocomplete="off"
                     >
-                        <p class="lot-item__form-item form__item form__item--invalid">
+                        <p class="lot-item__form-item form__item <?= !empty($errors) ? 'form__item--invalid' : '' ?>">
                             <label for="cost">Ваша ставка</label>
                                 <input id="cost"
-                                    type="text"
+                                    type="number"
                                     name="cost"
-                                    placeholder="<?= formatPrice(esc($lot['current_price'] + $lot['bid_step'] ?? '')) ?>"
+                                    placeholder="<?= formatPrice($min_bid) ?>"
                                 >
-                                <span class="form__error">Вы не сделали ставку</span>
+                                <span class="form__error"><?= $errors['cost'] ?? '' ?></span>
                         </p>
                         <button type="submit" class="button">Сделать ставку</button>
                     </form>
+
                 <?php endif; ?>
+
             </div>
             <div class="history">
                 <h3>История ставок (<span><?= count($bids) ?></span>)</h3>
@@ -88,6 +98,7 @@
                             <td class="history__time"><?= $bid['created_at'] ?></td>
                         </tr>
                     <?php endforeach; ?>
+
                 </table>
             </div>
         </div>

@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+date_default_timezone_set('UTC');
 
 require_once 'config/constant.php';
 
@@ -9,10 +10,15 @@ require_once 'enum/HttpStatusCodeEnum.php';
 
 require_once 'functions/helpers.php';
 require_once 'functions/functions.php';
-require_once 'functions/database/core.php';
-require_once 'functions/database/query.php';
-require_once 'functions/form/form.php';
+
+require_once 'functions/form/prepare.php';
 require_once 'functions/form/upload.php';
+
+require_once 'functions/database/core.php';
+require_once 'functions/database/query/lot.php';
+require_once 'functions/database/query/bid.php';
+require_once 'functions/database/query/user.php';
+require_once 'functions/database/query/category.php';
 
 require_once 'validation/const.php';
 require_once 'validation/rules.php';

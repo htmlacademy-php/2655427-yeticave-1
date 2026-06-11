@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 const ADD_LOT_FORM_KEY = 'add-lot';
 const SIGN_UP_FORM_KEY = 'sign-up';
+const ADD_BID_FORM_KEY = 'lot';
 const LOGIN_FORM_KEY = 'login';
 
 const VALIDATION_RULES = [
@@ -64,6 +65,12 @@ const VALIDATION_RULES = [
         'password'    => [
             'required',
             'password_match'
+        ]
+    ],
+    ADD_BID_FORM_KEY  => [
+        'cost'        =>[
+            'required',
+            'int'
         ]
     ]
 ];
